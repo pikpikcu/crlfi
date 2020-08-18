@@ -1,8 +1,3 @@
-/*
-mabe by pikpikcu
-happy hunting :)
-*/
-
 package main
 
 import (
@@ -29,8 +24,6 @@ var creator = "pikpikcu"
 var domains string
 var payloads string
 var output string
-
-//var userAgent string
 var timeout int
 var threads int
 var delay int
@@ -291,23 +284,16 @@ func crlfi() *cobra.Command {
 		Run:   VarFunction,
 	}
 
-	crlfi.Flags().StringVarP(&domains, "file", "f", "", "Location file domains")
+	crlfi.Flags().StringVarP(&domains, "list", "l", "", "Location file domains")
 	crlfi.Flags().StringVarP(&payloads, "payloads", "p", "payloads.txt", "Location of payloads to generate on requests")
 	crlfi.Flags().StringVarP(&output, "output", "o", "", "Location to save results")
-	//crlfi.Flags().StringVarP(&userAgent, "user-agent", "u", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36", "User agent for requests")
 	crlfi.Flags().IntVarP(&timeout, "timeout", "", 10, "The amount of time needed to close a connection ")
 	crlfi.Flags().IntVarP(&delay, "delay", "d", 0, "The time each threads waits between requests in milliseconds")
 	crlfi.Flags().IntVarP(&threads, "threads", "t", 1, "Number of threads to run crlfi on")
 	crlfi.Flags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
-
 	crlfi.MarkFlagRequired("domains")
-
 	return crlfi
 }
-func init() {
-	fmt.Printf("")
-}
-
 func er(msg interface{}) {
 	fmt.Println("Error:", msg)
 	os.Exit(1)
