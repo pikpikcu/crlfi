@@ -50,7 +50,6 @@ func Banner() {
 func VarFunction(cmd *cobra.Command, args []string) {
 	var wg sync.WaitGroup
 	if threads <= 0 {
-		//fmt.Println("Threads must be larger than 0")
 		os.Exit(1)
 	}
 	payloadread := fileReader(payloads)
@@ -86,7 +85,6 @@ func fuzzURL(domain string, payload string) *[]string {
 	var fuzzedURL []string
 	var fuzzedParams []string
 
-	// Make sure parameter are present
 	if strings.Contains(domain, "?") {
 		paramStr := strings.Split(domain, "?")[1]
 		params := strings.Split(paramStr, "&")
@@ -94,8 +92,6 @@ func fuzzURL(domain string, payload string) *[]string {
 		URL := domainPrefix + "?"
 
 		paramFuzzCount := 0
-		// Rebuild parameters so we can work with each parameter individually (I may be doing this wrong)
-		// Clear list before concatentation again
 		fuzzedParams = nil
 		for _, param := range params {
 			fuzzedParams = append(fuzzedParams, param)
@@ -106,8 +102,6 @@ func fuzzURL(domain string, payload string) *[]string {
 			paramFuzzCount += 1
 		}
 
-		// Inject payload into each parameter consecutively.  We don't want to
-		// have server errors for actions that could require specific strings
 		for paramPayloadCount := 0; paramPayloadCount < len(fuzzedParams); paramPayloadCount++ {
 			finalFuzzedParams := make([]string, len(fuzzedParams))
 			copy(finalFuzzedParams, fuzzedParams)
@@ -118,7 +112,6 @@ func fuzzURL(domain string, payload string) *[]string {
 		}
 	}
 
-	//Fuzz endpoints.  Keeping this seperated from parameters.  Maybe add flags for types of fuzzing later?
 	u, err := url.Parse(domain)
 	if err != nil {
 		panic(err)
@@ -200,8 +193,7 @@ func makeRequest(uri string, timeoutFlag int, wg *sync.WaitGroup) {
 		}
 		return
 	}
-	//req.Header.Set("User-Agent", userAgent)
-
+	
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
@@ -279,8 +271,7 @@ func crlfi() *cobra.Command {
 	Banner()
 	crlfi := &cobra.Command{
 		Use: "url",
-		//Short: "Scanner for all your CRLF Vulnerabilty",
-		Short: "",
+		Short: "Scanner for all your CRLF Vulnerabilty",
 		Run:   VarFunction,
 	}
 
